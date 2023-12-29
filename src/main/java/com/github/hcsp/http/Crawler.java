@@ -128,12 +128,7 @@ public class Crawler {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             ClassicHttpRequest httpGet = ClassicRequestBuilder.get(url).build();
             System.out.println("Loading resource...");
-            ClassicHttpResponse response = httpClient.execute(httpGet);
-            HttpEntity entity = response.getEntity();
-            String resource = EntityUtils.toString(entity);
-            EntityUtils.consume(entity);
-            response.close();
-            return resource;
+            return httpClient.execute(httpGet, (response) -> EntityUtils.toString(response.getEntity()));
         }
     }
 }
